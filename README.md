@@ -1,5 +1,14 @@
 # covercheck — Go diff-coverage gate
 
+[![check](https://github.com/dr-dobermann/covercheck/actions/workflows/check.yml/badge.svg)](https://github.com/dr-dobermann/covercheck/actions/workflows/check.yml)
+[![codecov](https://codecov.io/github/dr-dobermann/covercheck/graph/badge.svg)](https://codecov.io/github/dr-dobermann/covercheck)
+[![Go Reference](https://pkg.go.dev/badge/github.com/dr-dobermann/covercheck.svg)](https://pkg.go.dev/github.com/dr-dobermann/covercheck)
+[![Go Report Card](https://goreportcard.com/badge/github.com/dr-dobermann/covercheck)](https://goreportcard.com/report/github.com/dr-dobermann/covercheck)
+![Go version](https://img.shields.io/github/go-mod/go-version/dr-dobermann/covercheck)
+![Latest tag](https://img.shields.io/github/v/tag/dr-dobermann/covercheck)
+![Top language](https://img.shields.io/github/languages/top/dr-dobermann/covercheck)
+![License](https://img.shields.io/github/license/dr-dobermann/covercheck)
+
 A tiny, dependency-free Go tool that fails when the source lines a change *adds
 or modifies* are covered below a threshold — **patch (diff) coverage**. It judges
 only changed lines, so a repository's pre-existing untouched-code coverage

@@ -1,0 +1,6 @@
+# Codecov configuration.
+# The CLI entry point is a thin flag-parsing shell; its logic lives in (and is
+# covered through) the root covercheck package. Exclude it so the reported
+# number reflects the actual logic.
+ignore:
+  - "cmd/**/*"

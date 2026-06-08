@@ -53,3 +53,10 @@ jobs:
 
       - name: Vulnerability scan
         run: make vuln
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v6
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.txt
+          fail_ci_if_error: false
