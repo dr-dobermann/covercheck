@@ -1,0 +1,79 @@
+version: "2"
+run:
+  concurrency: 4
+  go: "1.25"
+  tests: false
+  allow-parallel-runners: true
+linters:
+  default: none
+  enable:
+    - asciicheck
+    - dupl
+    - errcheck
+    - funlen
+    - gochecknoinits
+    - gocognit
+    - goconst
+    - gocritic
+    - gocyclo
+    - goprintffuncname
+    - gosec
+    - govet
+    - ineffassign
+    - misspell
+    - nakedret
+    - nolintlint
+    - prealloc
+    - revive
+    - staticcheck
+    - unconvert
+    - unused
+    - whitespace
+  settings:
+    depguard:
+      rules:
+        deny_deprecated:
+          deny:
+            - pkg: io/ioutil
+              desc: io/ioutil is deprecated, use io and os packages instead
+    funlen:
+      lines: 100
+      statements: 50
+    gocritic:
+      disabled-checks:
+        - ruleguard
+        - unnamedResult
+        - whyNoLint
+        - commentedOutCode
+        - hugeParam
+      enabled-tags:
+        - diagnostic
+        - performance
+        - experimental
+        - opinionated
+    gocyclo:
+      min-complexity: 15
+    govet:
+      enable:
+        - shadow
+        - fieldalignment
+        - nilness
+        - printf
+        - shift
+        - unreachable
+        - unusedresult
+    misspell:
+      locale: US
+    nestif:
+      min-complexity: 4
+    staticcheck:
+      checks:
+        - all
+  exclusions:
+    presets: []
+    paths:
+      - _test\.go
+output:
+  formats:
+    text:
+      path: stdout

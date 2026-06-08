@@ -1,0 +1,55 @@
+name: check
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          # Full history so the dogfood diff-coverage gate resolves the
+          # merge-base with the base branch (base...HEAD).
+          fetch-depth: 0
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '1.25.11'
+          cache: true
+
+      - name: Install tools
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \
+            | sh -s -- -b "$(go env GOPATH)/bin" v2.11.4
+          go install golang.org/x/vuln/cmd/govulncheck@latest
+
+      - name: Lint
+        run: make lint
+
+      - name: Build
+        run: make build
+
+      - name: Test with race detector
+        run: make test
+
+      # Dogfood: covercheck gates its own changed lines. PR-only — there is no
+      # base to diff against on the initial master push.
+      - name: Diff-coverage gate (dogfood)
+        if: github.event_name == 'pull_request'
+        run: |
+          git fetch --no-tags origin master
+          make cover-check COVER_BASE=origin/master
+
+      - name: Vulnerability scan
+        run: make vuln
